@@ -105,9 +105,6 @@ class DetailContainer extends React.Component {
           posters: posters && posters,
         });
       } else {
-        // const request = await tvApi.tvDetail(parsedId);
-        // result = request.data;
-
         ({ data: result } = await tvApi.tvDetail(parsedId));
 
         const {

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-// styled-component를 이용해서 div태그를 생성해서 그것을 변수에 담아서 리액트 컴포넌트 형태로 사용할 수 있도록 한다.
 const Container = styled.div`
   padding: 40px;
   padding-top: 0px;

@@ -420,7 +420,6 @@ const TVPresenter = ({
   );
 };
 
-// PropTypes를 통해 받아온 props들의 타입들을 검사한다.
 TVPresenter.propTypes = {
   topRated: PropTypes.array,
   popular: PropTypes.array,

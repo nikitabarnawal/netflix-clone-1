@@ -108,8 +108,6 @@ const PosterContainer = styled.div`
   border-radius: 7px;
   transition: 0.2s linear;
 
-  /* PosterContainer에 hover했을 때 Image와 Popularity의 스타일을 변경해준다. */
-  /* ${Image}라고 적어준 이유는 Image는 const로 선언된 변수이기 때문에 자바스크립트를 쓸 수 있는 $중괄호 형태로 묶어줘야 한다. */
   &:hover {
     ${Image} {
       opacity: 0.3;
@@ -128,11 +126,6 @@ const ScLink = styled(Link)`
   border-radius: 7px;
   margin-right: 20px;
   margin-bottom: 45px;
-
-  /* &:nth-child(10),
-  &:nth-child(20) {
-    margin-right: 0;
-  } */
 
   &:hover {
     ${Container} {

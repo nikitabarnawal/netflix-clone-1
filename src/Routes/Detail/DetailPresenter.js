@@ -656,8 +656,6 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
       <Helmet>
         <title>{result.title ? result.title : result.name}</title>
       </Helmet>
-
-      {/* BlurBackground컴포넌트는 result안에 있는 backdrop_path를 가져오고 만약 있으면 https://image.tmdb.org/t/p/original${result.backdrop_path}를, 없으면 noPoster변수를 imageUrl props로 전달한다. */}
       <BlurBackground
         imageUrl={
           result.backdrop_path ? `https://image.tmdb.org/t/p/original${result.backdrop_path}` : `https://image.tmdb.org/t/p/original${result.poster_path}`
@@ -843,7 +841,6 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
 
             <SplideContainer>
               <SplideTitle>스틸컷</SplideTitle>
-
               {checkPCMobileBool ? (
                 <Splide
                   options={{

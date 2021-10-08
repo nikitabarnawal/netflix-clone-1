@@ -18,7 +18,6 @@ class TVContainer extends React.Component {
 
   // componentDidMount를 통해 컴포넌트가 생성되고 난 후 실행시킬 코드를 안에 넣어준다.
   async componentDidMount() {
-    // try, catch, finally처리를 해주고 tvApi객체에서 topRated()함수를 실행해서 api를 통해 데이터를 가져오도록 한다.
     try {
       const {
         data: { results: topRated },

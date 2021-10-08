@@ -15,7 +15,6 @@ class HomeContainer extends React.Component {
       const {
         data: { results },
       } = await homeApi.nowPlaying();
-
       let movieArray = [];
 
       for (let i = 0; i < 1; i++) {
@@ -23,7 +22,6 @@ class HomeContainer extends React.Component {
       }
 
       const movieId = movieArray[0][Math.floor(Math.random() * movieArray[0].length)];
-
       const { data: movieDetail } = await homeApi.movieDetail(movieId);
 
       if (movieDetail.videos.results.length === 0) {
