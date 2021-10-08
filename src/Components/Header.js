@@ -1,6 +1,5 @@
 // 리액트에서 컴포넌트에 CSS 스타일을 주는 방법은 여러가지가 있다.
 // Header2처럼 폴더를 따로 만들고 거기에 index.js와 Header2.module.css를 통해 스타일을 줄 수도 있고 아래와 같이 styled-component를 이용할 수도 있다.
-// 스타일 컴포넌트를 사용하기 위해 import해왔다.
 import styled from "styled-components";
 
 // react-router-dom으로부터 withRouter를 가져와서 사용할 수 있다.
