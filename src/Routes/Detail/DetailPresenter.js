@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
 import Footer from "Components/Footer";
-import Helmet from "react-helmet";
 import noPoster from "../../assets/noPoster.png";
 import noActor from "../../assets/noActor.png";
 import noCompany2 from "../../assets/noCompany2.png";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 
 const Container = styled.div`
   width: 100%;
@@ -653,9 +653,12 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
     <Message></Message>
   ) : (
     <Container>
-      <Helmet>
-        <title>{result.title ? result.title : result.name}</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>{result.title ? result.title : result.name}</title>
+        </Helmet>
+      </HelmetProvider>
+
       <BlurBackground
         imageUrl={
           result.backdrop_path ? `https://image.tmdb.org/t/p/original${result.backdrop_path}` : `https://image.tmdb.org/t/p/original${result.poster_path}`
@@ -675,11 +678,6 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
               <Title>{result.title ? result.title : result.name}</Title>
               <SubTitle>{result.tagline ? result.tagline : ""}</SubTitle>
               <GenreContainer>
-                {/* {조건 ? 참: 거짓}과 {조건 && 구문}의 차이점 */}
-                {/* {조건 ? 참: 거짓} : 조건이 true이면 참, false이면 거짓을 실행한다. {조건 && 구문} : 조건이 true이면 && 뒤에 구문을 실행한다. */}
-                {/* 만약 result.genres가 존재해서 true면 result.genres.map()함수를 실행한다. */}
-                {/* result.genres.map()함수는 매개변수로 genres와 index를 받고 index와 result.genres배열의 길이가 같아지면 genre.name를 출력하고 그렇지 않을 때는 genre.name /을 출력한다. */}
-                {/* Family / Drama 이런식으로 맨 마지막 장르 Drama에서는 /가 붙지 않게 하기 위해서 아래와 같이 코드를 짰다. */}
                 <Item>{result.genres && result.genres.map((genre, index) => (index === result.genres.length - 1 ? genre.name : `${genre.name}▪`))}</Item>
               </GenreContainer>
               <DateRunTimeContainer>
@@ -697,7 +695,9 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
               <Keywords>
                 <KeywordTitle>키워드</KeywordTitle>
                 <KeywordContent>
-                  {keywords.length > 0 ? keywords.map((keyword, index) => index < 15 && <KeywordSpan>{keyword.name && "#" + keyword.name}</KeywordSpan>) : ""}
+                  {keywords.length > 0
+                    ? keywords.map((keyword, index) => index < 15 && <KeywordSpan key={index}>{keyword.name && "#" + keyword.name}</KeywordSpan>)
+                    : ""}
                 </KeywordContent>
               </Keywords>
             </Data>
@@ -793,7 +793,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                 {cast &&
                   cast.map((cast, index) =>
                     index < 6 ? (
-                      <ActorImage>
+                      <ActorImage key={index}>
                         <ActorPhoto bgUrl={cast.profile_path && cast.profile_path}></ActorPhoto>
                         <ActorName>{cast.name && cast.name}</ActorName>
                         <ActorCharacter>{cast.character && cast.character}</ActorCharacter>
@@ -852,9 +852,9 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                 >
                   {backdrops &&
                     backdrops.map(
-                      (backdrop) =>
+                      (backdrop, index) =>
                         backdrop.file_path && (
-                          <SplideSlide>
+                          <SplideSlide key={index}>
                             <SplideLink href={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} target="_blank">
                               <SplideImage src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} alt="" />
                             </SplideLink>
@@ -873,9 +873,9 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                 >
                   {backdrops &&
                     backdrops.map(
-                      (backdrop) =>
+                      (backdrop, index) =>
                         backdrop.file_path && (
-                          <SplideSlide>
+                          <SplideSlide key={index}>
                             <SplideLink href={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} target="_blank">
                               <SplideImage src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} alt="" />
                             </SplideLink>
@@ -893,7 +893,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                   reviews.map(
                     (review, index) =>
                       index < 5 && (
-                        <Review>
+                        <Review key={index}>
                           <ReviewImageContent>
                             <ReviewImage src={noActor}></ReviewImage>
                           </ReviewImageContent>
@@ -927,7 +927,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
               <Splide options={{ rewind: true, perPage: 2, perMove: 2, gap: "1rem" }}>
                 {recommendations &&
                   recommendations.map((recommendation) => (
-                    <SplideSlide>
+                    <SplideSlide key={recommendation.id}>
                       <RecommendSubContent>
                         <RecommendLink
                           href={
@@ -951,7 +951,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
               <Splide options={{ rewind: true, perPage: 8, perMove: 1, gap: "1rem" }}>
                 {recommendations &&
                   recommendations.map((recommendation) => (
-                    <SplideSlide>
+                    <SplideSlide key={recommendation.id}>
                       <RecommendSubContent>
                         <RecommendLink
                           href={
@@ -977,7 +977,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
       </Content>
       <Footer></Footer>
       <GototopButton onClick={() => window.scrollTo(0, 0)}>
-        <i class="fas fa-arrow-up" style={{ color: "white", fontSize: "25px" }}></i>
+        <i className="fas fa-arrow-up" style={{ color: "white", fontSize: "25px" }}></i>
       </GototopButton>
     </Container>
   );
@@ -986,7 +986,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
 DetailPresenter.propTypes = {
   result: PropTypes.object,
   error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   isMovie: PropTypes.bool,
   recommendations: PropTypes.array,
   cast: PropTypes.array,

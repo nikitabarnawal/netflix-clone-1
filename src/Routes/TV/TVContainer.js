@@ -16,7 +16,6 @@ class TVContainer extends React.Component {
     topRatedInfinite: null,
   };
 
-  // componentDidMount를 통해 컴포넌트가 생성되고 난 후 실행시킬 코드를 안에 넣어준다.
   async componentDidMount() {
     try {
       const {

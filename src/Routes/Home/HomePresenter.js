@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Helmet from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
 import QnA from "Components/QnA";
@@ -172,9 +172,12 @@ const HomePresenter = ({ movieDetail, error, loading }) => {
     <Loader></Loader>
   ) : (
     <Container>
-      <Helmet>
-        <title>넷플릭스 - 홈</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>넷플릭스 - 홈</title>
+        </Helmet>
+      </HelmetProvider>
+
       {movieDetail && (
         <>
           <HomeContainer>
@@ -219,7 +222,7 @@ const HomePresenter = ({ movieDetail, error, loading }) => {
 };
 
 HomePresenter.propTypes = {
-  movieDetail: PropTypes.array,
+  movieDetail: PropTypes.object,
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
 };

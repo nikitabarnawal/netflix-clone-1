@@ -1,14 +1,14 @@
+import { useEffect, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import uniqBy from "lodash.uniqby";
 import Section from "Components/Section";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
 import Poster from "Components/Poster";
-import Helmet from "react-helmet";
-import { Link, withRouter } from "react-router-dom";
 import useInfiniteScroll from "useInfiniteScroll";
-import { useEffect, useState } from "react";
-import uniqBy from "lodash.uniqby";
 import { moviesApi } from "api";
 
 const Container = styled.div`
@@ -198,9 +198,11 @@ const MoviePresenter = ({
     <Loader></Loader>
   ) : (
     <Container>
-      <Helmet>
-        <title>넷플릭스 - 영화</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>넷플릭스 - 영화</title>
+        </Helmet>
+      </HelmetProvider>
 
       {popular && popular.length > 0 && hash === "#/movie" && (
         <TitleContainer>
@@ -416,7 +418,7 @@ const MoviePresenter = ({
       )}
 
       <GototopButton onClick={() => window.scrollTo(0, 0)}>
-        <i class="fas fa-arrow-up" style={{ color: "white", fontSize: "25px" }}></i>
+        <i className="fas fa-arrow-up" style={{ color: "white", fontSize: "25px" }}></i>
       </GototopButton>
 
       {error && <Message text={error}></Message>}
