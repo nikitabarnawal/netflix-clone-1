@@ -1,4 +1,4 @@
-import { HashRouter, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Header from "Components/Header";
 import Home from "Routes/Home";
 import Movie from "Routes/Movie";
@@ -8,7 +8,7 @@ import Detail from "Routes/Detail";
 
 const Router = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Header></Header>
       <Switch>
         <Route path="/" exact component={Home}></Route>
@@ -26,7 +26,7 @@ const Router = () => {
         <Route path="/tv/:id" component={Detail}></Route>
         <Redirect from="*" to="/"></Redirect>
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
