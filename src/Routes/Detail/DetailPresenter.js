@@ -595,7 +595,7 @@ const RecommendSubContent = styled.div`
 
 const RecommendLink = styled.a`
   display: block;
-  /* background: rgba(0, 0, 0, 0.5) url(${(props) => (props.bgUrl ? `https://image.tmdb.org/t/p/original${props.bgUrl}` : noPoster)}) no-repeat center center; */
+  background: rgba(0, 0, 0, 0.5) url(${(props) => (props.bgUrl ? `https://image.tmdb.org/t/p/original${props.bgUrl}` : noPoster)}) no-repeat center center;
   background-size: cover;
   height: 270px;
   cursor: pointer;
@@ -888,8 +888,8 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       <RecommendLink
                         href={
                           recommendation.media_type === "movie"
-                            ? `https://netflix-gw.netlify.app/#/movie/${recommendation.id}`
-                            : `https://netflix-gw.netlify.app/#/tv/${recommendation.id}`
+                            ? `https://netflix-gw.netlify.app/movie/${recommendation.id}`
+                            : `https://netflix-gw.netlify.app/tv/${recommendation.id}`
                         }
                         bgUrl={recommendation?.poster_path}
                         target="_blank"
@@ -911,8 +911,8 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       <RecommendLink
                         href={
                           recommendation.media_type === "movie"
-                            ? `https://netflix-gw.netlify.app/#/movie/${recommendation.id}`
-                            : `https://netflix-gw.netlify.app/#/tv/${recommendation.id}`
+                            ? `https://netflix-gw.netlify.app/movie/${recommendation.id}`
+                            : `https://netflix-gw.netlify.app/tv/${recommendation.id}`
                         }
                         bgUrl={recommendation?.poster_path}
                         target="_blank"

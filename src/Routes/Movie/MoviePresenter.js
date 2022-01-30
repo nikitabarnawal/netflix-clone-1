@@ -114,20 +114,9 @@ const GototopButton = styled.button`
   }
 `;
 
-const MoviePresenter = ({
-  nowPlaying,
-  upcoming,
-  popular,
-  topRated,
-  error,
-  loading,
-  nowPlayingInfinite,
-  popularInfinite,
-  upcomingInfinite,
-  topRatedInfinite,
-}) => {
+const MoviePresenter = ({ nowPlaying, upcoming, popular, topRated, error, loading, nowPlayingInfinite, popularInfinite, upcomingInfinite, topRatedInfinite }) => {
   const {
-    location: { hash },
+    location: { pathname },
   } = window;
 
   const [popularMovies, setPopularMovies] = useState([]);
@@ -138,7 +127,7 @@ const MoviePresenter = ({
 
   const getInfiniteApi = async () => {
     if (page !== 1) {
-      if (hash === "#/movie") {
+      if (pathname === "/movie") {
         try {
           const {
             data: { results: newPopularMovies },
@@ -150,7 +139,7 @@ const MoviePresenter = ({
         } catch (error) {
           console.log(error);
         }
-      } else if (hash === "#/movie/now-playing") {
+      } else if (pathname === "/movie/now-playing") {
         try {
           const {
             data: { results: newNowPlayingMovies },
@@ -162,7 +151,7 @@ const MoviePresenter = ({
         } catch (error) {
           console.log(error);
         }
-      } else if (hash === "#/movie/upcoming") {
+      } else if (pathname === "/movie/upcoming") {
         try {
           const {
             data: { results: newUpcomingMovies },
@@ -174,7 +163,7 @@ const MoviePresenter = ({
         } catch (error) {
           console.log(error);
         }
-      } else if (hash === "#/movie/top-rated") {
+      } else if (pathname === "/movie/top-rated") {
         try {
           const {
             data: { results: newTopRatedMovies },
@@ -204,7 +193,7 @@ const MoviePresenter = ({
         </Helmet>
       </HelmetProvider>
 
-      {popular && popular.length > 0 && hash === "#/movie" && (
+      {popular && popular.length > 0 && pathname === "/movie" && (
         <TitleContainer>
           <TitleContent>
             <Title>인기 영화</Title>
@@ -217,7 +206,7 @@ const MoviePresenter = ({
         </TitleContainer>
       )}
 
-      {nowPlaying && nowPlaying.length > 0 && hash === "#/movie/now-playing" && (
+      {nowPlaying && nowPlaying.length > 0 && pathname === "/movie/now-playing" && (
         <TitleContainer>
           <TitleContent>
             <Title>현재 상영중인 영화</Title>
@@ -230,7 +219,7 @@ const MoviePresenter = ({
         </TitleContainer>
       )}
 
-      {upcoming && upcoming.length > 0 && hash === "#/movie/upcoming" && (
+      {upcoming && upcoming.length > 0 && pathname === "/movie/upcoming" && (
         <TitleContainer>
           <TitleContent>
             <Title>상영 예정인 영화</Title>
@@ -243,7 +232,7 @@ const MoviePresenter = ({
         </TitleContainer>
       )}
 
-      {topRated && topRated.length > 0 && hash === "#/movie/top-rated" && (
+      {topRated && topRated.length > 0 && pathname === "/movie/top-rated" && (
         <TitleContainer>
           <TitleContent>
             <Title>평점높은 영화</Title>
@@ -258,22 +247,22 @@ const MoviePresenter = ({
 
       <ButtonContainer>
         <ButtonContent>
-          <ButtonLink to="/movie" current={hash === "#/movie" && true}>
+          <ButtonLink to="/movie" current={pathname === "/movie" && true}>
             인기 영화
           </ButtonLink>
-          <ButtonLink to="/movie/now-playing" current={hash === "#/movie/now-playing" && true}>
+          <ButtonLink to="/movie/now-playing" current={pathname === "/movie/now-playing" && true}>
             현재 상영중
           </ButtonLink>
-          <ButtonLink to="/movie/upcoming" current={hash === "#/movie/upcoming" && true}>
+          <ButtonLink to="/movie/upcoming" current={pathname === "/movie/upcoming" && true}>
             상영 예정
           </ButtonLink>
-          <ButtonLink to="/movie/top-rated" current={hash === "#/movie/top-rated" && true}>
+          <ButtonLink to="/movie/top-rated" current={pathname === "/movie/top-rated" && true}>
             평점높은 영화
           </ButtonLink>
         </ButtonContent>
       </ButtonContainer>
 
-      {popular && popular.length > 0 && hash === "#/movie" && (
+      {popular && popular.length > 0 && pathname === "/movie" && (
         <Section title="인기 영화">
           {popular.map((movie) => (
             <Poster
@@ -291,7 +280,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {popularInfinite && popularInfinite.length > 0 && hash === "#/movie" && (
+      {popularInfinite && popularInfinite.length > 0 && pathname === "/movie" && (
         <Section title="인기 영화">
           {popularMovies.map((movie) => (
             <Poster
@@ -309,7 +298,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {nowPlaying && nowPlaying.length > 0 && hash === "#/movie/now-playing" && (
+      {nowPlaying && nowPlaying.length > 0 && pathname === "/movie/now-playing" && (
         <Section title="현재 상영중">
           {nowPlaying.map((movie) => (
             <Poster
@@ -327,7 +316,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {nowPlayingInfinite && nowPlayingInfinite.length > 0 && hash === "#/movie/now-playing" && (
+      {nowPlayingInfinite && nowPlayingInfinite.length > 0 && pathname === "/movie/now-playing" && (
         <Section title="현재 상영중">
           {nowPlayingMovies.map((movie) => (
             <Poster
@@ -345,7 +334,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {upcoming && upcoming.length > 0 && hash === "#/movie/upcoming" && (
+      {upcoming && upcoming.length > 0 && pathname === "/movie/upcoming" && (
         <Section title="상영 예정">
           {upcoming.map((movie) => (
             <Poster
@@ -363,7 +352,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {upcomingInfinite && upcomingInfinite.length > 0 && hash === "#/movie/upcoming" && (
+      {upcomingInfinite && upcomingInfinite.length > 0 && pathname === "/movie/upcoming" && (
         <Section title="상영 예정">
           {upcomingMovies.map((movie) => (
             <Poster
@@ -381,7 +370,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {topRated && topRated.length > 0 && hash === "#/movie/top-rated" && (
+      {topRated && topRated.length > 0 && pathname === "/movie/top-rated" && (
         <Section title="평점높은 영화">
           {topRated.map((movie) => (
             <Poster
@@ -399,7 +388,7 @@ const MoviePresenter = ({
         </Section>
       )}
 
-      {topRatedInfinite && topRatedInfinite.length > 0 && hash === "#/movie/top-rated" && (
+      {topRatedInfinite && topRatedInfinite.length > 0 && pathname === "/movie/top-rated" && (
         <Section title="평점높은 영화">
           {topRatedMovies.map((movie) => (
             <Poster

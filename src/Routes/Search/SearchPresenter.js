@@ -107,7 +107,7 @@ const ButtonLink = styled(Link)`
 
 const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, handleSubmit, updateSearchTerm }) => {
   const {
-    location: { hash },
+    location: { pathname },
   } = window;
 
   return (
@@ -134,16 +134,16 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, 
         <>
           <ButtonContainer>
             <ButtonContent>
-              <ButtonLink to="/search" current={hash === "#/search" && true}>
+              <ButtonLink to="/search" current={pathname === "/search" && true}>
                 영화
               </ButtonLink>
-              <ButtonLink to="/search/result-tv" current={hash === "#/search/result-tv" && true}>
+              <ButtonLink to="/search/result-tv" current={pathname === "/search/result-tv" && true}>
                 TV 프로그램
               </ButtonLink>
             </ButtonContent>
           </ButtonContainer>
 
-          {movieResults && movieResults.length > 0 && hash === "#/search" && (
+          {movieResults && movieResults.length > 0 && pathname === "/search" && (
             <Section title="영화">
               {movieResults.map((movie) => (
                 <Poster
@@ -160,7 +160,7 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, 
             </Section>
           )}
 
-          {tvResults && tvResults.length > 0 && hash === "#/search/result-tv" && (
+          {tvResults && tvResults.length > 0 && pathname === "/search/result-tv" && (
             <Section title="TV 프로그램">
               {tvResults.map((tv) => (
                 <Poster

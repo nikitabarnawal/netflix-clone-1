@@ -114,20 +114,9 @@ const GototopButton = styled.button`
   }
 `;
 
-const TVPresenter = ({
-  topRated,
-  popular,
-  airingToday,
-  onTheAir,
-  error,
-  loading,
-  popularInfinite,
-  airingTodayInfinite,
-  onTheAirInfinite,
-  topRatedInfinite,
-}) => {
+const TVPresenter = ({ topRated, popular, airingToday, onTheAir, error, loading, popularInfinite, airingTodayInfinite, onTheAirInfinite, topRatedInfinite }) => {
   const {
-    location: { hash },
+    location: { pathname },
   } = window;
 
   const [popularTV, setPopularTV] = useState([]);
@@ -138,7 +127,7 @@ const TVPresenter = ({
 
   const getInfiniteApi = async () => {
     if (page !== 1) {
-      if (hash === "#/tv") {
+      if (pathname === "/tv") {
         try {
           const {
             data: { results: newPopularTV },
@@ -150,7 +139,7 @@ const TVPresenter = ({
         } catch (error) {
           console.log(error);
         }
-      } else if (hash === "#/tv/airing-today") {
+      } else if (pathname === "/tv/airing-today") {
         try {
           const {
             data: { results: newNowPlayingTV },
@@ -162,7 +151,7 @@ const TVPresenter = ({
         } catch (error) {
           console.log(error);
         }
-      } else if (hash === "#/tv/on-the-air") {
+      } else if (pathname === "/tv/on-the-air") {
         try {
           const {
             data: { results: newUpcomingTV },
@@ -174,7 +163,7 @@ const TVPresenter = ({
         } catch (error) {
           console.log(error);
         }
-      } else if (hash === "#/tv/top-rated") {
+      } else if (pathname === "/tv/top-rated") {
         try {
           const {
             data: { results: newTopRatedTV },
@@ -204,7 +193,7 @@ const TVPresenter = ({
         </Helmet>
       </HelmetProvider>
 
-      {popular && popular.length > 0 && hash === "#/tv" && (
+      {popular && popular.length > 0 && pathname === "/tv" && (
         <TitleContainer>
           <TitleContent>
             <Title>인기 프로그램</Title>
@@ -217,7 +206,7 @@ const TVPresenter = ({
         </TitleContainer>
       )}
 
-      {airingToday && airingToday.length > 0 && hash === "#/tv/airing-today" && (
+      {airingToday && airingToday.length > 0 && pathname === "/tv/airing-today" && (
         <TitleContainer>
           <TitleContent>
             <Title>현재 방영중인 프로그램</Title>
@@ -230,7 +219,7 @@ const TVPresenter = ({
         </TitleContainer>
       )}
 
-      {onTheAir && onTheAir.length > 0 && hash === "#/tv/on-the-air" && (
+      {onTheAir && onTheAir.length > 0 && pathname === "/tv/on-the-air" && (
         <TitleContainer>
           <TitleContent>
             <Title>방영 예정인 프로그램</Title>
@@ -243,7 +232,7 @@ const TVPresenter = ({
         </TitleContainer>
       )}
 
-      {topRated && topRated.length > 0 && hash === "#/tv/top-rated" && (
+      {topRated && topRated.length > 0 && pathname === "/tv/top-rated" && (
         <TitleContainer>
           <TitleContent>
             <Title>평점높은 TV 프로그램</Title>
@@ -258,22 +247,22 @@ const TVPresenter = ({
 
       <ButtonContainer>
         <ButtonContent>
-          <ButtonLink to="/tv" current={hash === "#/tv" && true}>
+          <ButtonLink to="/tv" current={pathname === "/tv" && true}>
             인기 프로그램
           </ButtonLink>
-          <ButtonLink to="/tv/airing-today" current={hash === "#/tv/airing-today" && true}>
+          <ButtonLink to="/tv/airing-today" current={pathname === "/tv/airing-today" && true}>
             현재 방영중
           </ButtonLink>
-          <ButtonLink to="/tv/on-the-air" current={hash === "#/tv/on-the-air" && true}>
+          <ButtonLink to="/tv/on-the-air" current={pathname === "/tv/on-the-air" && true}>
             방영 예정
           </ButtonLink>
-          <ButtonLink to="/tv/top-rated" current={hash === "#/tv/top-rated" && true}>
+          <ButtonLink to="/tv/top-rated" current={pathname === "/tv/top-rated" && true}>
             평점높은 프로그램
           </ButtonLink>
         </ButtonContent>
       </ButtonContainer>
 
-      {popular && popular.length > 0 && hash === "#/tv" && (
+      {popular && popular.length > 0 && pathname === "/tv" && (
         <Section title="인기 프로그램">
           {popular.map((tv) => (
             <Poster
@@ -290,7 +279,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {popularInfinite && popularInfinite.length > 0 && hash === "#/tv" && (
+      {popularInfinite && popularInfinite.length > 0 && pathname === "/tv" && (
         <Section title="인기 프로그램">
           {popularTV.map((tv) => (
             <Poster
@@ -307,7 +296,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {airingToday && airingToday.length > 0 && hash === "#/tv/airing-today" && (
+      {airingToday && airingToday.length > 0 && pathname === "/tv/airing-today" && (
         <Section title="현재 방영중">
           {airingToday.map((tv) => (
             <Poster
@@ -324,7 +313,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {airingTodayInfinite && airingTodayInfinite.length > 0 && hash === "#/tv/airing-today" && (
+      {airingTodayInfinite && airingTodayInfinite.length > 0 && pathname === "/tv/airing-today" && (
         <Section title="현재 방영중">
           {airingTodayTV.map((tv) => (
             <Poster
@@ -341,7 +330,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {onTheAir && onTheAir.length > 0 && hash === "#/tv/on-the-air" && (
+      {onTheAir && onTheAir.length > 0 && pathname === "/tv/on-the-air" && (
         <Section title="방영 예정">
           {onTheAir.map((tv) => (
             <Poster
@@ -358,7 +347,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {onTheAirInfinite && onTheAirInfinite.length > 0 && hash === "#/tv/on-the-air" && (
+      {onTheAirInfinite && onTheAirInfinite.length > 0 && pathname === "/tv/on-the-air" && (
         <Section title="방영 예정">
           {onTheAirTV.map((tv) => (
             <Poster
@@ -375,7 +364,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {topRated && topRated.length > 0 && hash === "#/tv/top-rated" && (
+      {topRated && topRated.length > 0 && pathname === "/tv/top-rated" && (
         <Section title="평점높은 프로그램">
           {topRated.map((tv) => (
             <Poster
@@ -392,7 +381,7 @@ const TVPresenter = ({
         </Section>
       )}
 
-      {topRatedInfinite && topRatedInfinite.length > 0 && hash === "#/tv/top-rated" && (
+      {topRatedInfinite && topRatedInfinite.length > 0 && pathname === "/tv/top-rated" && (
         <Section title="평점높은 프로그램">
           {topRatedTV.map((tv) => (
             <Poster
