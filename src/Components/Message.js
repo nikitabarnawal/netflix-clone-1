@@ -7,12 +7,10 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Span = styled.span``;
-
 const Message = ({ text }) => {
   return (
     <Container>
-      <Span>{text}</Span>
+      <span>{text}</span>
     </Container>
   );
 };

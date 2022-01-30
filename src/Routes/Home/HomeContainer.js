@@ -26,32 +26,21 @@ class HomeContainer extends React.Component {
 
       if (movieDetail.videos.results.length === 0) {
         const { data: movieDetail } = await homeApi.movieDetail(497698);
-
-        this.setState({
-          movieDetail,
-        });
+        this.setState({ movieDetail });
         return;
       }
 
-      this.setState({
-        movieDetail,
-      });
+      this.setState({ movieDetail });
     } catch (error) {
       console.log(error);
-      this.setState({
-        error: "Can't find Home Video.",
-      });
+      this.setState({ error: "Can't find Home Video." });
     } finally {
-      this.setState({
-        loading: false,
-      });
+      this.setState({ loading: false });
     }
   }
 
   render() {
-    const { movieDetail, error, loading } = this.state;
-
-    return <HomePresenter movieDetail={movieDetail} error={error} loading={loading} />;
+    return <HomePresenter {...this.state} />;
   }
 }
 

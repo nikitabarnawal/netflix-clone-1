@@ -50,45 +50,17 @@ class MovieContainer extends React.Component {
         data: { results: topRatedInfinite },
       } = await moviesApi.topRatedInfinite();
 
-      this.setState({
-        nowPlaying,
-        upcoming,
-        popular,
-        topRated,
-        popularInfinite,
-        nowPlayingInfinite,
-        upcomingInfinite,
-        topRatedInfinite,
-      });
+      this.setState({ nowPlaying, upcoming, popular, topRated, popularInfinite, nowPlayingInfinite, upcomingInfinite, topRatedInfinite });
     } catch (error) {
       console.log(error);
-      this.setState({
-        error: "Can't find Movie Information.",
-      });
+      this.setState({ error: "Can't find Movie Information." });
     } finally {
-      this.setState({
-        loading: false,
-      });
+      this.setState({ loading: false });
     }
   }
 
   render() {
-    const { nowPlaying, upcoming, popular, topRated, error, loading, popularInfinite, nowPlayingInfinite, upcomingInfinite, topRatedInfinite } = this.state;
-
-    return (
-      <MoviePresenter
-        nowPlaying={nowPlaying}
-        upcoming={upcoming}
-        popular={popular}
-        topRated={topRated}
-        error={error}
-        loading={loading}
-        popularInfinite={popularInfinite}
-        nowPlayingInfinite={nowPlayingInfinite}
-        upcomingInfinite={upcomingInfinite}
-        topRatedInfinite={topRatedInfinite}
-      />
-    );
+    return <MoviePresenter {...this.state} />;
   }
 }
 

@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Redirect, Switch } from "react-router-dom";
+import { HashRouter, Route, Redirect, Switch } from "react-router-dom";
 import Header from "Components/Header";
 import Home from "Routes/Home";
 import Movie from "Routes/Movie";
@@ -6,10 +6,9 @@ import TV from "Routes/TV";
 import Search from "Routes/Search";
 import Detail from "Routes/Detail";
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default () => {
+const Router = () => {
   return (
-    <Router>
+    <HashRouter>
       <Header></Header>
       <Switch>
         <Route path="/" exact component={Home}></Route>
@@ -27,6 +26,8 @@ export default () => {
         <Route path="/tv/:id" component={Detail}></Route>
         <Redirect from="*" to="/"></Redirect>
       </Switch>
-    </Router>
+    </HashRouter>
   );
 };
+
+export default Router;

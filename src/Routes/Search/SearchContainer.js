@@ -26,9 +26,7 @@ class SearchContainer extends React.Component {
       target: { value },
     } = event;
 
-    this.setState({
-      searchTerm: value,
-    });
+    this.setState({ searchTerm: value });
   };
 
   searchByTerm = async () => {
@@ -43,37 +41,17 @@ class SearchContainer extends React.Component {
         data: { results: tvResults },
       } = await tvApi.search(searchTerm);
 
-      this.setState({
-        movieResults,
-        tvResults,
-        loading: true,
-      });
+      this.setState({ movieResults, tvResults, loading: true });
     } catch (error) {
       console.log(error);
-      this.setState({
-        error: "Can't fint Results.",
-      });
+      this.setState({ error: "Can't fint Results." });
     } finally {
-      this.setState({
-        loading: false,
-      });
+      this.setState({ loading: false });
     }
   };
 
   render() {
-    const { movieResults, tvResults, searchTerm, error, loading } = this.state;
-
-    return (
-      <SearchPresenter
-        movieResults={movieResults}
-        tvResults={tvResults}
-        searchTerm={searchTerm}
-        error={error}
-        loading={loading}
-        handleSubmit={this.handleSubmit}
-        updateSearchTerm={this.updateSearchTerm}
-      ></SearchPresenter>
-    );
+    return <SearchPresenter {...this.state} handleSubmit={this.handleSubmit} updateSearchTerm={this.updateSearchTerm} />;
   }
 }
 

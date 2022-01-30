@@ -179,43 +179,36 @@ const HomePresenter = ({ movieDetail, error, loading }) => {
       </HelmetProvider>
 
       {movieDetail && (
-        <>
-          <HomeContainer>
-            <Iframe
-              src={`https://www.youtube.com/embed/${movieDetail.videos.results[0].key}?controls=0&autoplay=1&loop=1&mute=1&playlist=${movieDetail.videos.results[0].key}`}
-              width="640"
-              height="360"
-              frameborder="0"
-              allow="autoplay; fullscreen"
-            ></Iframe>
-            <Content>
-              <Title>{movieDetail.title}</Title>
-              <SubTitle>{movieDetail.tagline}</SubTitle>
-              <Genres>{movieDetail.genres.map((genre, index) => (movieDetail.genres.length - 1 === index ? genre.name : `${genre.name} • `))}</Genres>
-              <YearRuntimeContainer>
-                <Year>{movieDetail.release_date.substring(0, 4)}</Year>
-                <YearRuntimeSpan>•</YearRuntimeSpan>
-                <Runtime>{movieDetail.runtime}분</Runtime>
-              </YearRuntimeContainer>
-              <Rating>
-                평점
-                <RatingChild>{movieDetail.vote_average}</RatingChild>
-              </Rating>
-              {checkPCMobileBool ? (
-                <Overview>{movieDetail.overview.substring(0, 310)}..</Overview>
-              ) : (
-                <Overview>{movieDetail.overview.substring(0, 150)}..</Overview>
-              )}
-            </Content>
-            <HomeSubContainer>
-              <Description></Description>
-              <QnA></QnA>
-              <Footer></Footer>
-            </HomeSubContainer>
-          </HomeContainer>
-        </>
+        <HomeContainer>
+          <Iframe
+            src={`https://www.youtube.com/embed/${movieDetail.videos.results[0].key}?controls=0&autoplay=1&loop=1&mute=1&playlist=${movieDetail.videos.results[0].key}`}
+            width="640"
+            height="360"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+          ></Iframe>
+          <Content>
+            <Title>{movieDetail.title}</Title>
+            <SubTitle>{movieDetail.tagline}</SubTitle>
+            <Genres>{movieDetail.genres.map((genre, index) => (movieDetail.genres.length - 1 === index ? genre.name : `${genre.name} • `))}</Genres>
+            <YearRuntimeContainer>
+              <Year>{movieDetail.release_date.substring(0, 4)}</Year>
+              <YearRuntimeSpan>•</YearRuntimeSpan>
+              <Runtime>{movieDetail.runtime}분</Runtime>
+            </YearRuntimeContainer>
+            <Rating>
+              평점
+              <RatingChild>{movieDetail.vote_average}</RatingChild>
+            </Rating>
+            {checkPCMobileBool ? <Overview>{movieDetail.overview.substring(0, 310)}..</Overview> : <Overview>{movieDetail.overview.substring(0, 150)}..</Overview>}
+          </Content>
+          <HomeSubContainer>
+            <Description></Description>
+            <QnA></QnA>
+            <Footer></Footer>
+          </HomeSubContainer>
+        </HomeContainer>
       )}
-
       {error && <Message text={error}></Message>}
     </Container>
   );

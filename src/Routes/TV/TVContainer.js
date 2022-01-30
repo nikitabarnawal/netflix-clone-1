@@ -50,44 +50,16 @@ class TVContainer extends React.Component {
         data: { results: topRatedInfinite },
       } = await tvApi.topRatedInfinite();
 
-      this.setState({
-        topRated,
-        popular,
-        airingToday,
-        onTheAir,
-        popularInfinite,
-        airingTodayInfinite,
-        onTheAirInfinite,
-        topRatedInfinite,
-      });
+      this.setState({ topRated, popular, airingToday, onTheAir, popularInfinite, airingTodayInfinite, onTheAirInfinite, topRatedInfinite });
     } catch {
-      this.setState({
-        error: "Can't find TV Information.",
-      });
+      this.setState({ error: "Can't find TV Information." });
     } finally {
-      this.setState({
-        loading: false,
-      });
+      this.setState({ loading: false });
     }
   }
 
   render() {
-    const { topRated, popular, airingToday, onTheAir, error, loading, popularInfinite, airingTodayInfinite, onTheAirInfinite, topRatedInfinite } = this.state;
-
-    return (
-      <TYPresenter
-        topRated={topRated}
-        popular={popular}
-        airingToday={airingToday}
-        onTheAir={onTheAir}
-        error={error}
-        loading={loading}
-        popularInfinite={popularInfinite}
-        airingTodayInfinite={airingTodayInfinite}
-        onTheAirInfinite={onTheAirInfinite}
-        topRatedInfinite={topRatedInfinite}
-      />
-    );
+    return <TYPresenter {...this.state} />;
   }
 }
 

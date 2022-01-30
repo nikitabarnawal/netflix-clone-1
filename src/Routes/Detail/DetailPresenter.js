@@ -4,7 +4,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Loader from "Components/Loader";
-import Message from "Components/Message";
 import Footer from "Components/Footer";
 import noPoster from "../../assets/noPoster.png";
 import noActor from "../../assets/noActor.png";
@@ -72,8 +71,7 @@ const Cover = styled.div`
   background: url(${(props) => props.imageUrl}) no-repeat center center;
   background-size: cover;
   border-radius: 15px;
-  box-shadow: rgb(0 0 0 / 50%) 0px 7px 10px, rgb(0 0 0 / 24%) 0px -12px 30px, rgb(0 0 0 / 24%) 0px 4px 6px, rgb(0 0 0 / 34%) 0px 12px 13px,
-    rgb(0 0 0 / 18%) 0px -3px 5px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 7px 10px, rgb(0 0 0 / 24%) 0px -12px 30px, rgb(0 0 0 / 24%) 0px 4px 6px, rgb(0 0 0 / 34%) 0px 12px 13px, rgb(0 0 0 / 18%) 0px -3px 5px;
   transition: 0.5s;
 
   &:hover {
@@ -597,7 +595,7 @@ const RecommendSubContent = styled.div`
 
 const RecommendLink = styled.a`
   display: block;
-  background: rgba(0, 0, 0, 0.5) url(${(props) => (props.bgUrl ? `https://image.tmdb.org/t/p/original${props.bgUrl}` : noPoster)}) no-repeat center center;
+  /* background: rgba(0, 0, 0, 0.5) url(${(props) => (props.bgUrl ? `https://image.tmdb.org/t/p/original${props.bgUrl}` : noPoster)}) no-repeat center center; */
   background-size: cover;
   height: 270px;
   cursor: pointer;
@@ -644,13 +642,11 @@ const GototopButton = styled.button`
 `;
 
 const DetailPresenter = ({ result, error, loading = true, isMovie, recommendations, cast, keywords, reviews, backdrops, posters, tvDetail2 }) => {
-  const checkPC = "win16|win32|win64|macintel|mac|";
+  const checkPC = "win16|win32|win64|macintel|mac";
   const checkPCMobileBool = checkPC.indexOf(navigator.platform.toLowerCase()) < 0;
 
   return loading ? (
-    <Loader></Loader>
-  ) : error ? (
-    <Message></Message>
+    <Loader />
   ) : (
     <Container>
       <HelmetProvider>
@@ -660,25 +656,21 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
       </HelmetProvider>
 
       <BlurBackground
-        imageUrl={
-          result.backdrop_path ? `https://image.tmdb.org/t/p/original${result.backdrop_path}` : `https://image.tmdb.org/t/p/original${result.poster_path}`
-        }
+        imageUrl={result.backdrop_path ? `https://image.tmdb.org/t/p/original${result.backdrop_path}` : `https://image.tmdb.org/t/p/original${result.poster_path}`}
       ></BlurBackground>
       <Content>
         <CoverContainer>
           <CoverHeading>
             <CoverLink href={result.homepage ? result.homepage : "#"}>
               <Cover
-                imageUrl={
-                  result.poster_path ? `https://image.tmdb.org/t/p/original${result.poster_path}` : `https://image.tmdb.org/t/p/original${result.backdrop_path}`
-                }
+                imageUrl={result.poster_path ? `https://image.tmdb.org/t/p/original${result.poster_path}` : `https://image.tmdb.org/t/p/original${result.backdrop_path}`}
               ></Cover>
             </CoverLink>
             <Data>
               <Title>{result.title ? result.title : result.name}</Title>
               <SubTitle>{result.tagline ? result.tagline : ""}</SubTitle>
               <GenreContainer>
-                <Item>{result.genres && result.genres.map((genre, index) => (index === result.genres.length - 1 ? genre.name : `${genre.name}▪`))}</Item>
+                <Item>{result?.genres?.map((genre, index) => (index === result.genres.length - 1 ? genre.name : `${genre.name}▪`))}</Item>
               </GenreContainer>
               <DateRunTimeContainer>
                 <Item>{result.release_date ? result.release_date : result.first_air_date}</Item>
@@ -688,16 +680,14 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
               <VoteContainer>
                 <Item>
                   평점
-                  <VoteStrong>{result.vote_average && result.vote_average}</VoteStrong>
+                  <VoteStrong>{result?.vote_average}</VoteStrong>
                 </Item>
               </VoteContainer>
-              <Overview>{result.overview && result.overview}</Overview>
+              <Overview>{result?.overview}</Overview>
               <Keywords>
                 <KeywordTitle>키워드</KeywordTitle>
                 <KeywordContent>
-                  {keywords.length > 0
-                    ? keywords.map((keyword, index) => index < 15 && <KeywordSpan key={index}>{keyword.name && "#" + keyword.name}</KeywordSpan>)
-                    : ""}
+                  {keywords.length > 0 ? keywords.map((keyword, index) => index < 15 && <KeywordSpan key={index}>{keyword.name && "#" + keyword.name}</KeywordSpan>) : ""}
                 </KeywordContent>
               </Keywords>
             </Data>
@@ -707,7 +697,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
             <TeaserContainer>
               <TeaserTitle>트레일러</TeaserTitle>
               <TeaserVideo>
-                {isMovie === true && result.videos && result.videos.results[0] && result.videos.results[0].key && (
+                {isMovie === true && result?.videos?.results[0]?.key && (
                   <IframeContainer>
                     <Iframe
                       src={`https://www.youtube.com/embed/${result.videos.results[0].key}?playlist=${result.videos.results[0].key}`}
@@ -716,11 +706,11 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       frameborder="0"
                       allow="autoplay; fullscreen"
                     ></Iframe>
-                    <IframeDesc>{result.videos.results[0].name && result.videos.results[0].name}</IframeDesc>
+                    <IframeDesc>{result?.videos?.results[0]?.name}</IframeDesc>
                   </IframeContainer>
                 )}
 
-                {isMovie === true && result.videos && result.videos.results[1] && result.videos.results[1].key && (
+                {isMovie === true && result?.videos?.results[1]?.key && (
                   <IframeContainer>
                     <Iframe
                       src={`https://www.youtube.com/embed/${result.videos.results[1].key}?playlist=${result.videos.results[1].key}`}
@@ -729,11 +719,11 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       frameborder="0"
                       allow="autoplay; fullscreen"
                     ></Iframe>
-                    <IframeDesc>{result.videos.results[1].name && result.videos.results[1].name}</IframeDesc>
+                    <IframeDesc>{result?.videos?.results[1]?.name}</IframeDesc>
                   </IframeContainer>
                 )}
 
-                {isMovie === true && result.videos && result.videos.results[2] && result.videos.results[2].key && (
+                {isMovie === true && result?.videos?.results[2]?.key && (
                   <IframeContainer>
                     <Iframe
                       src={`https://www.youtube.com/embed/${result.videos.results[2].key}?playlist=${result.videos.results[2].key}`}
@@ -742,11 +732,11 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       frameborder="0"
                       allow="autoplay; fullscreen"
                     ></Iframe>
-                    <IframeDesc>{result.videos.results[2].name && result.videos.results[2].name}</IframeDesc>
+                    <IframeDesc>{result?.videos?.results[2]?.name}</IframeDesc>
                   </IframeContainer>
                 )}
 
-                {isMovie === false && tvDetail2.length > 0 && tvDetail2[0] && tvDetail2[0].key && (
+                {isMovie === false && tvDetail2.length > 0 && tvDetail2[0]?.key && (
                   <IframeContainer>
                     <Iframe
                       src={`https://www.youtube.com/embed/${tvDetail2[0].key}?playlist=${tvDetail2[0].key}`}
@@ -755,11 +745,11 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       frameborder="0"
                       allow="autoplay; fullscreen"
                     ></Iframe>
-                    <IframeDesc>{tvDetail2[0].name && tvDetail2[0].name}</IframeDesc>
+                    <IframeDesc>{tvDetail2[0]?.name}</IframeDesc>
                   </IframeContainer>
                 )}
 
-                {isMovie === false && tvDetail2.length > 0 && tvDetail2[1] && tvDetail2[1].key && (
+                {isMovie === false && tvDetail2.length > 0 && tvDetail2[1]?.key && (
                   <IframeContainer>
                     <Iframe
                       src={`https://www.youtube.com/embed/${tvDetail2[1].key}?playlist=${tvDetail2[1].key}`}
@@ -768,11 +758,11 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       frameborder="0"
                       allow="autoplay; fullscreen"
                     ></Iframe>
-                    <IframeDesc>{tvDetail2[1].name && tvDetail2[1].name}</IframeDesc>
+                    <IframeDesc>{tvDetail2[1]?.name}</IframeDesc>
                   </IframeContainer>
                 )}
 
-                {isMovie === false && tvDetail2.length > 0 && tvDetail2[2] && tvDetail2[2].key && (
+                {isMovie === false && tvDetail2.length > 0 && tvDetail2[2]?.key && (
                   <IframeContainer>
                     <Iframe
                       src={`https://www.youtube.com/embed/${tvDetail2[2].key}?playlist=${tvDetail2[2].key}`}
@@ -781,7 +771,7 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                       frameborder="0"
                       allow="autoplay; fullscreen"
                     ></Iframe>
-                    <IframeDesc>{tvDetail2[2].name && tvDetail2[2].name}</IframeDesc>
+                    <IframeDesc>{tvDetail2[2]?.name}</IframeDesc>
                   </IframeContainer>
                 )}
               </TeaserVideo>
@@ -794,9 +784,9 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
                   cast.map((cast, index) =>
                     index < 6 ? (
                       <ActorImage key={index}>
-                        <ActorPhoto bgUrl={cast.profile_path && cast.profile_path}></ActorPhoto>
-                        <ActorName>{cast.name && cast.name}</ActorName>
-                        <ActorCharacter>{cast.character && cast.character}</ActorCharacter>
+                        <ActorPhoto bgUrl={cast?.profile_path}></ActorPhoto>
+                        <ActorName>{cast?.name}</ActorName>
+                        <ActorCharacter>{cast?.character}</ActorCharacter>
                       </ActorImage>
                     ) : (
                       ""
@@ -806,33 +796,17 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
               <CompanyContainer>
                 <CompanyTitle>제작사</CompanyTitle>
                 <CompanyContent>
-                  <CompanyImage
-                    bgUrl={
-                      result.production_companies.length > 0 &&
-                      result.production_companies[0] &&
-                      result.production_companies[0].logo_path &&
-                      result.production_companies[0].logo_path
-                    }
-                  ></CompanyImage>
+                  <CompanyImage bgUrl={result?.production_companies[0]?.logo_path}></CompanyImage>
                   <CompanyName>
-                    {result.production_companies.length > 0 &&
-                      result.production_companies[0] &&
-                      result.production_companies[0].name &&
-                      result.production_companies[0].name}{" "}
-                    (
-                    {result.production_companies.length > 0 &&
-                      result.production_companies[0] &&
-                      result.production_companies[0].origin_country &&
-                      result.production_companies[0].origin_country}
-                    )
+                    {result?.production_companies[0]?.name} ({result?.production_companies[0]?.origin_country})
                   </CompanyName>
                 </CompanyContent>
                 <CompanyMoney>
                   {isMovie === true && (
                     <>
-                      <Budget>💰예산: ${result.budget && result.budget.toLocaleString("KR")}</Budget>
+                      <Budget>💰예산: ${result?.budget?.toLocaleString("KR")}</Budget>
                       <CompanyDivider>|</CompanyDivider>
-                      <Revenue>💰수익: ${result.revenue && result.revenue.toLocaleString("KR")}</Revenue>
+                      <Revenue>💰수익: ${result?.revenue?.toLocaleString("KR")}</Revenue>
                     </>
                   )}
                 </CompanyMoney>
@@ -842,46 +816,30 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
             <SplideContainer>
               <SplideTitle>스틸컷</SplideTitle>
               {checkPCMobileBool ? (
-                <Splide
-                  options={{
-                    rewind: true,
-                    perPage: 2,
-                    perMove: 2,
-                    gap: "1rem",
-                  }}
-                >
-                  {backdrops &&
-                    backdrops.map(
-                      (backdrop, index) =>
-                        backdrop.file_path && (
-                          <SplideSlide key={index}>
-                            <SplideLink href={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} target="_blank">
-                              <SplideImage src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} alt="" />
-                            </SplideLink>
-                          </SplideSlide>
-                        )
-                    )}
+                <Splide options={{ rewind: true, perPage: 2, perMove: 2, gap: "1rem" }}>
+                  {backdrops?.map(
+                    (backdrop, index) =>
+                      backdrop.file_path && (
+                        <SplideSlide key={index}>
+                          <SplideLink href={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} target="_blank">
+                            <SplideImage src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} alt="" />
+                          </SplideLink>
+                        </SplideSlide>
+                      )
+                  )}
                 </Splide>
               ) : (
-                <Splide
-                  options={{
-                    rewind: true,
-                    perPage: 3,
-                    perMove: 1,
-                    gap: "1rem",
-                  }}
-                >
-                  {backdrops &&
-                    backdrops.map(
-                      (backdrop, index) =>
-                        backdrop.file_path && (
-                          <SplideSlide key={index}>
-                            <SplideLink href={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} target="_blank">
-                              <SplideImage src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} alt="" />
-                            </SplideLink>
-                          </SplideSlide>
-                        )
-                    )}
+                <Splide options={{ rewind: true, perPage: 3, perMove: 1, gap: "1rem" }}>
+                  {backdrops?.map(
+                    (backdrop, index) =>
+                      backdrop.file_path && (
+                        <SplideSlide key={index}>
+                          <SplideLink href={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} target="_blank">
+                            <SplideImage src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`} alt="" />
+                          </SplideLink>
+                        </SplideSlide>
+                      )
+                  )}
                 </Splide>
               )}
             </SplideContainer>
@@ -889,33 +847,32 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
             <ReviewContainer>
               <ReviewTitle>리뷰 ({reviews ? reviews.length : "0"})</ReviewTitle>
               <ReviewContent>
-                {reviews &&
-                  reviews.map(
-                    (review, index) =>
-                      index < 5 && (
-                        <Review key={index}>
-                          <ReviewImageContent>
-                            <ReviewImage src={noActor}></ReviewImage>
-                          </ReviewImageContent>
-                          <ReviewSubContent>
-                            <ReviewName>
-                              {review.author ? review.author.substring(0, 15) : review.author_details.username.substring(0, 15)}
-                              <ReviewDivider>|</ReviewDivider>
-                              <ReviewDate>{review.created_at && review.created_at.substring(0, 10)}</ReviewDate>
-                              <ReviewDivider>|</ReviewDivider>
-                              <ReviewRating>평점 {review.author_details.rating && review.author_details.rating}</ReviewRating>
-                            </ReviewName>
-                            <ReviewOverview>
-                              {checkPCMobileBool ? (
-                                <ReviewLink href={review.url && review.url}>{review.content && review.content.substring(0, 150) + ".."}</ReviewLink>
-                              ) : (
-                                <ReviewLink href={review.url && review.url}>{review.content && review.content.substring(0, 900) + ".."}</ReviewLink>
-                              )}
-                            </ReviewOverview>
-                          </ReviewSubContent>
-                        </Review>
-                      )
-                  )}
+                {reviews?.map(
+                  (review, index) =>
+                    index < 5 && (
+                      <Review key={index}>
+                        <ReviewImageContent>
+                          <ReviewImage src={noActor}></ReviewImage>
+                        </ReviewImageContent>
+                        <ReviewSubContent>
+                          <ReviewName>
+                            {review.author ? review.author.substring(0, 15) : review.author_details.username.substring(0, 15)}
+                            <ReviewDivider>|</ReviewDivider>
+                            <ReviewDate>{review?.created_at?.substring(0, 10)}</ReviewDate>
+                            <ReviewDivider>|</ReviewDivider>
+                            <ReviewRating>평점 {review?.author_details?.rating}</ReviewRating>
+                          </ReviewName>
+                          <ReviewOverview>
+                            {checkPCMobileBool ? (
+                              <ReviewLink href={review?.url}>{review?.content.substring(0, 150) + ".."}</ReviewLink>
+                            ) : (
+                              <ReviewLink href={review?.url}>{review?.content.substring(0, 900) + ".."}</ReviewLink>
+                            )}
+                          </ReviewOverview>
+                        </ReviewSubContent>
+                      </Review>
+                    )
+                )}
               </ReviewContent>
             </ReviewContainer>
           </CoverMiddle>
@@ -925,59 +882,57 @@ const DetailPresenter = ({ result, error, loading = true, isMovie, recommendatio
           <RecommendContent>
             {checkPCMobileBool ? (
               <Splide options={{ rewind: true, perPage: 2, perMove: 2, gap: "1rem" }}>
-                {recommendations &&
-                  recommendations.map((recommendation) => (
-                    <SplideSlide key={recommendation.id}>
-                      <RecommendSubContent>
-                        <RecommendLink
-                          href={
-                            recommendation.media_type === "movie"
-                              ? `https://netflix-gw.netlify.app/#/movie/${recommendation.id}`
-                              : `https://netflix-gw.netlify.app/#/tv/${recommendation.id}`
-                          }
-                          bgUrl={recommendation.poster_path && recommendation.poster_path}
-                          target="_blank"
-                        >
-                          <RecommendSubTitle>
-                            <RecommendName>{recommendation.title ? recommendation.title : recommendation.name}</RecommendName>
-                            <RecommendRating>⭐{String(recommendation.vote_average && recommendation.vote_average).substring(0, 3)}</RecommendRating>
-                          </RecommendSubTitle>
-                        </RecommendLink>
-                      </RecommendSubContent>
-                    </SplideSlide>
-                  ))}
+                {recommendations?.map((recommendation) => (
+                  <SplideSlide key={recommendation.id}>
+                    <RecommendSubContent>
+                      <RecommendLink
+                        href={
+                          recommendation.media_type === "movie"
+                            ? `https://netflix-gw.netlify.app/#/movie/${recommendation.id}`
+                            : `https://netflix-gw.netlify.app/#/tv/${recommendation.id}`
+                        }
+                        bgUrl={recommendation?.poster_path}
+                        target="_blank"
+                      >
+                        <RecommendSubTitle>
+                          <RecommendName>{recommendation.title ? recommendation.title : recommendation.name}</RecommendName>
+                          <RecommendRating>⭐{String(recommendation?.vote_average).substring(0, 3)}</RecommendRating>
+                        </RecommendSubTitle>
+                      </RecommendLink>
+                    </RecommendSubContent>
+                  </SplideSlide>
+                ))}
               </Splide>
             ) : (
               <Splide options={{ rewind: true, perPage: 8, perMove: 1, gap: "1rem" }}>
-                {recommendations &&
-                  recommendations.map((recommendation) => (
-                    <SplideSlide key={recommendation.id}>
-                      <RecommendSubContent>
-                        <RecommendLink
-                          href={
-                            recommendation.media_type === "movie"
-                              ? `https://netflix-gw.netlify.app/#/movie/${recommendation.id}`
-                              : `https://netflix-gw.netlify.app/#/tv/${recommendation.id}`
-                          }
-                          bgUrl={recommendation.poster_path && recommendation.poster_path}
-                          target="_blank"
-                        >
-                          <RecommendSubTitle>
-                            <RecommendName>{recommendation.title ? recommendation.title : recommendation.name}</RecommendName>
-                            <RecommendRating>⭐{String(recommendation.vote_average && recommendation.vote_average).substring(0, 3)}</RecommendRating>
-                          </RecommendSubTitle>
-                        </RecommendLink>
-                      </RecommendSubContent>
-                    </SplideSlide>
-                  ))}
+                {recommendations?.map((recommendation) => (
+                  <SplideSlide key={recommendation.id}>
+                    <RecommendSubContent>
+                      <RecommendLink
+                        href={
+                          recommendation.media_type === "movie"
+                            ? `https://netflix-gw.netlify.app/#/movie/${recommendation.id}`
+                            : `https://netflix-gw.netlify.app/#/tv/${recommendation.id}`
+                        }
+                        bgUrl={recommendation?.poster_path}
+                        target="_blank"
+                      >
+                        <RecommendSubTitle>
+                          <RecommendName>{recommendation.title ? recommendation.title : recommendation.name}</RecommendName>
+                          <RecommendRating>⭐{String(recommendation?.vote_average).substring(0, 3)}</RecommendRating>
+                        </RecommendSubTitle>
+                      </RecommendLink>
+                    </RecommendSubContent>
+                  </SplideSlide>
+                ))}
               </Splide>
             )}
           </RecommendContent>
         </RecommendContainer>
       </Content>
-      <Footer></Footer>
+      <Footer />
       <GototopButton onClick={() => window.scrollTo(0, 0)}>
-        <i className="fas fa-arrow-up" style={{ color: "white", fontSize: "25px" }}></i>
+        <i className="fas fa-arrow-up" style={{ color: "white", fontSize: "25px" }} />
       </GototopButton>
     </Container>
   );

@@ -16,8 +16,6 @@ const LoadingContainer = styled.span`
   flex-direction: column;
 `;
 
-const Image = styled.img``;
-
 const Title = styled.h1`
   color: white;
   font-size: 18px;
@@ -27,7 +25,7 @@ const Title = styled.h1`
 const Loader = () => (
   <Container>
     <LoadingContainer role="img" aria-label="Loading">
-      <Image src={loadingBar}></Image>
+      <img src={loadingBar} alt="loadingBar"></img>
       <Title>Loading...</Title>
     </LoadingContainer>
   </Container>
